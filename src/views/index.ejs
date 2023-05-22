@@ -1,55 +1,102 @@
+<!-- views/index.ejs -->
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Forex Trades</title>
-  <link rel="stylesheet" href="/css/styles.css">
-</head>
+  <!-- CSS Styles -->
+  <style>
+    /* Table styles */
 
+    /* Form styles */
+    .add-trade-form {
+      margin-bottom: 20px;
+    }
+    .add-trade-form input,
+    .add-trade-form select {
+      margin-bottom: 10px;
+      width: 200px;
+    }
+    .add-trade-form button {
+      margin-top: 10px;
+    }
+    .trade-table input {
+      border: none;
+      background-color: transparent;
+      width: 100%;
+    }
+  </style>
+</head>
 <body>
   <h1>Forex Trades</h1>
 
-  <form action="/trades" method="POST">
-    <!-- Add input fields for each column here -->
+  <!-- New Trade Form -->
+  <form class="add-trade-form" action="/trades" method="POST">
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date" required>
+
+    <label for="pair">Pair:</label>
+    <input type="text" id="pair" name="pair" required>
+
+    <label for="lot">Lot:</label>
+    <input type="text" id="lot" name="lot" required>
+
+    <label for="openTime">Open Time:</label>
+    <input type="datetime-local" id="openTime" name="openTime" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" required>
+    
+    <label for="hour">Hour:</label>
+    <input type="number" id="hour" name="hour">
+
+    <label for="minute">Minute:</label>
+    <input type="number" id="minute" name="minute">
+
+    <label for="sl">Stop Loss (SL):</label>
+    <input type="number" id="sl" name="sl" step="0.001" required>
+
+    <label for="tp">Take Profit (TP):</label>
+    <input type="number" id="tp" name="tp" step="0.001" required>
+
     <button type="submit">Add Trade</button>
   </form>
 
-  <table>
+  <!-- Trades Table -->
+  <table class="trade-table">
+    <!-- Table headers -->
     <thead>
       <tr>
         <th>Date</th>
         <th>Pair</th>
         <th>Lot</th>
         <th>Open Time</th>
-        <th>1 Hour</th>
-        <th>15 Min</th>
+        <th>Hour</th>
+        <th>Minute</th>
         <th>SL</th>
         <th>TP</th>
         <th>Result</th>
         <th>Close Time</th>
+        <th>Comment</th>
       </tr>
     </thead>
+    <!-- Table body -->
     <tbody>
       <% trades.forEach((trade) => { %>
         <tr>
           <td><%= trade.date %></td>
           <td><%= trade.pair %></td>
           <td><%= trade.lot %></td>
-          <td><%= trade.openTime %></td>
-          <td><%= trade.hour %></td>
-          <td><%= trade.minute %></td>
-          <td><%= trade.sl %></td>
-          <td><%= trade.tp %></td>
-          <td><%= trade.result %></td>
-          <td><%= trade.closeTime %></td>
+          <td><input type="datetime-local" value="<%= trade.openTime %>"></td>
+          <td><input type="number" value="<%= trade.hour %>" min="0" max="23"></td>
+          <td><input type="number" value="<%= trade.minute %>"></td>
+          <td><input type="number" value="<%= trade.sl %>"></td>
+          <td><input type="number" value="<%= trade.tp %>"></td>
+          <td><input type="text" value="<%= trade.result %>"></td>
+          <td><input type="datetime-local" value="<%= trade.closeTime %>"></td>
+          <td><input type="text" value="<%= trade.comment %>"></td>
         </tr>
       <% }) %>
     </tbody>
   </table>
 
-  <script src="/js/main.js"></script>
+  <!-- Scripts -->
+  <!-- Include necessary JavaScript libraries if required -->
 </body>
-
 </html>

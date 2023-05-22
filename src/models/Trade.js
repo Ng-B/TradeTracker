@@ -9,8 +9,8 @@ const tradeSchema = new mongoose.Schema({
   minute: { type: Number },
   sl: { type: Number },
   tp: { type: Number },
-  result: { type: String },
-  closeTime: { type: Date },
+  result: { type: String, required: false }, // Make it optional
+  closeTime: { type: Date, required: false }, // Make it optional
 });
 
 module.exports = mongoose.model('Trade', tradeSchema);
