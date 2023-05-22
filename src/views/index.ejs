@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forex Trades</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <h1>Forex Trades</h1>
+
+  <form action="/trades" method="POST">
+    <!-- Add input fields for each column here -->
+    <button type="submit">Add Trade</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Pair</th>
+        <th>Lot</th>
+        <th>Open Time</th>
+        <th>1 Hour</th>
+        <th>15 Min</th>
+        <th>SL</th>
+        <th>TP</th>
+        <th>Result</th>
+        <th>Close Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% trades.forEach((trade) => { %>
+        <tr>
+          <td><%= trade.date %></td>
+          <td><%= trade.pair %></td>
+          <td><%= trade.lot %></td>
+          <td><%= trade.openTime %></td>
+          <td><%= trade.hour %></td>
+          <td><%= trade.minute %></td>
+          <td><%= trade.sl %></td>
+          <td><%= trade.tp %></td>
+          <td><%= trade.result %></td>
+          <td><%= trade.closeTime %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <script src="/js/main.js"></script>
+</body>
+
+</html>
