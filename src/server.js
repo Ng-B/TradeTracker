@@ -26,6 +26,10 @@ mongoose.connect(mongoURI, {
   .catch(err => console.log(err));
 
 // Routes
+app.get('/', (req, res) => {
+  res.redirect('/trades');
+});
+  
 app.get('/trades', async (req, res) => {
   try {
     const trades = await Trade.find();
@@ -38,10 +42,10 @@ app.get('/trades', async (req, res) => {
 
 app.post('/trades', async (req, res) => {
   try {
-    const { date, pair, lot, openTime, hour, minute, sl, tp, result, closeTime, comment } = req.body;
+    const { price, pair, lot, openTime, hour, minute, sl, tp, result, closeTime, comment } = req.body;
 
     const newTrade = new Trade({
-      date,
+      price,
       pair,
       lot,
       openTime,
@@ -61,6 +65,42 @@ app.post('/trades', async (req, res) => {
     res.status(500).send('An error occurred while adding the trade.');
   }
 });
+
+// Update a trade
+app.put('/trades/:id', async (req, res) => {
+  try {
+    const { result, closeTime, comment } = req.body;
+    const trade = await Trade.findByIdAndUpdate(req.params.id, { result, closeTime, comment }, { new: true });
+
+    if (!trade) {
+      return res.status(404).json({ error: 'Trade not found' });
+    }
+
+    res.json(trade);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while updating the trade.');
+  }
+});
+
+app.delete('/trades/:tradeId', (req, res) => {
+  const tradeId = req.params.tradeId;
+
+  // Delete the trade from the database
+  Trade.findByIdAndDelete(tradeId)
+    .then((deletedTrade) => {
+      if (!deletedTrade) {
+        res.status(404).send('Trade not found');
+        return;
+      }
+      res.status(200).send('Trade deleted successfully');
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
