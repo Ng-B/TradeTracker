@@ -4,14 +4,14 @@ body {
     background-color: #f1f1f1;
     font-family: Arial, sans-serif;
   }
-
+  
   h1 {
     text-align: center;
     margin-top: 40px;
     margin-bottom: 20px;
     color: #333;
   }
-
+  
   form {
     background-color: #fff;
     border-radius: 4px;
@@ -21,24 +21,24 @@ body {
     margin-left: auto;
     margin-right: auto;
   }
-
+  
   .form-row {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 10px;
   }
-
+  
   .form-group {
     flex: 1;
     margin-right: 10px;
   }
-
+  
   .form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
   }
-
+  
   .form-group input[type="text"],
   .form-group input[type="number"],
   .form-group input[type="date"],
@@ -49,7 +49,7 @@ body {
     border-radius: 4px;
     box-sizing: border-box;
   }
-
+  
   .form-group button {
     background-color: #4CAF50;
     color: white;
@@ -58,32 +58,48 @@ body {
     border-radius: 4px;
     cursor: pointer;
   }
-
+  
   .trade-table {
     background-color: #fff;
     border-collapse: collapse;
     width: 100%;
     margin-bottom: 20px;
   }
-
+  
   .trade-table th,
   .trade-table td {
-    padding: 8px;
+    padding: 6px;
     text-align: left;
     border-bottom: 1px solid #ddd;
   }
-
+  
   .trade-table th {
     background-color: #333;
     color: #fff;
   }
 
+ .trade-table th {
+    background-color: #333;
+    color: #fff;
+  }
+
+  .th-strength {
+    width: 3%;
+  }
+
+  .th-date {
+    width: 15%;
+  }
+
+  .th-nums {
+    width: 5%;
+  }
+  
   .trade-table tr:hover {
     background-color: #f5f5f5;
   }
-
+  
   .trade-table input[type="text"],
-  .trade-table input[type="number"],
   .trade-table input[type="datetime-local"] {
     width: 100%;
     padding: 5px;
@@ -91,13 +107,13 @@ body {
     border-radius: 4px;
     box-sizing: border-box;
   }
-
+  
   .trade-table h6 {
     margin: 0;
     font-size: 12px;
     color: #999;
   }
-
+  
   .trade-table button {
     margin-right: 5px;
     background-color: #4CAF50;
@@ -107,76 +123,66 @@ body {
     border-radius: 4px;
     cursor: pointer;
   }
-
+  
   .red {
     color: #FF0000;
   }
-
+  
   .green {
     color: #00FF00;
   }
-
+  
   .tradingview-widget-container {
     margin: 20px auto;
     max-width: 800px;
   }
-
+  
   .blue-text {
     color: #2196f3;
   }
-
+  
   .color-gradient {
     background: linear-gradient(to right, lightyellow, darkorange);
     color: #fff;
     padding: 2px 5px;
     border-radius: 3px;
   }
-
+  
   .color-0 {
     background-color: lightyellow;
   }
-
+  
   .color-1 {
     background-color: #ffc34d;
   }
-
+  
   .color-2 {
     background-color: #ffa319;
   }
-
+  
   /* Define color classes for other values as needed */
-
+  
   .color-10 {
     background-color: darkorange;
   }
-
+  
   .negative-result {
     background-color: rgba(255, 0, 0, 0.2);
   }
-
+  
   .positive-result {
     background-color: rgba(0, 128, 0, 0.2);
   }
-
+  
   table {
     table-layout: fixed;
     width: 100%;
   }
   
-  td:nth-child(1),
-  td:nth-child(2),
-  td:nth-child(3),
-  td:nth-child(4),
-  td:nth-child(5) {
-    width: 1%;
-    white-space: nowrap;
+  .datetime-cell input[type="datetime-local"] {
+    width: 100%; /* Adjust the width as needed */
   }
-  
-  td:nth-child(6) {
-    width: 80%;
-  }
-  
-  input[type="text"] {
+
+  .number-table > input {
     width: 100%;
   }
-  

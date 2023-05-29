@@ -111,23 +111,25 @@
       </script>
   </div>
 
-  <!-- Trades Table -->
+  <!-- Export Button -->
+  <button id="export-btn" class="animate__animated animate__bounce">Export to Excel</button>
+
   <table class="trade-table">
     <!-- Table headers -->
     <thead>
       <tr>
-        <th>Price</th>
-        <th>Pair</th>
-        <th>Lot</th>
-        <th>Open Time</th>
-        <th>Hour</th>
-        <th>Minute</th>
-        <th>SL</th>
-        <th>TP</th>
-        <th>Result</th>
-        <th>Close Time</th>
-        <th>Comment</th>
-        <th>Action</th> <!-- New column for the update button -->
+        <th class="th-nums">Price</th>
+        <th style="width: 7%;">Pair</th>
+        <th class="th-strength">Lot</th>
+        <th class="th-date">Open Time</th>
+        <th class="th-strength">Hour</th>
+        <th class="th-strength">Minute</th>
+        <th class="th-nums">SL</th>
+        <th class="th-nums">TP</th>
+        <th class="th-nums">Result</th>
+        <th class="th-date">Close Time</th>
+        <th style="width: 30%;">Comment</th>
+        <th style="width: 5%;">Action</th> <!-- New column for the update button -->
       </tr>
     </thead>
     <!-- Table body -->
@@ -143,20 +145,18 @@
           <td>
             <%= trade.lot %>
           </td>
-          <td><input type="datetime-local" value="<%= trade.openTime.toISOString().slice(0, -8) %>"></td>
-          <td><input type="number" value="<%= trade.hour %>" min="0" max="23"></td>
-          <td><input type="number" value="<%= trade.minute %>"></td>
+          <td class="datetime-cell"><input type="datetime-local"
+              value="<%= trade.openTime.toISOString().slice(0, -8) %>"></td>
+          <td class="number-table"><input type="number" value="<%= trade.hour %>" min="0" max="23"></td>
+          <td class="number-table"><input type="number" value="<%= trade.minute %>"></td>
           <td><input type="number" value="<%= trade.sl %>"></td>
           <td><input type="number" value="<%= trade.tp %>"></td>
           <td class="<%= trade.result & trade.result < 0 ? 'negative-result' : '' %>" data-result="<%= trade.result %>">
             <input type="text" data-field="result" value="<%= trade.result %>" class="<%= trade.result %>">
           </td>
-          <td>
+          <td class="datetime-cell">
             <input type="datetime-local"
               value="<%= trade.closeTime ? trade.closeTime.toISOString().slice(0, -8) : '' %>">
-            <h6>
-              <%= trade.closeTime ? trade.closeTime.toISOString().slice(0, -8) : '' %>
-            </h6>
           </td>
           <td><input type="text" value="<%= trade.comment %>"></td>
           <td>
@@ -168,6 +168,7 @@
     </tbody>
   </table>
 
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
   <script>
     // JavaScript
     $(document).ready(function () {
@@ -261,9 +262,39 @@
         });
       });
 
-      // Animate.css
-      $('.animate__animated').addClass('animate__fadeIn');
-    });
+    // Export to Excel
+    function exportToExcel() {
+      const table = document.querySelector('.trade-table');
+      const headers = Array.from(table.querySelectorAll('th')).map(header => header.innerText);
+      const rows = Array.from(table.querySelectorAll('tr')).map(row => Array.from(row.querySelectorAll('td')).map(cell => {
+        const input = cell.querySelector('input');
+        if (input) {
+          return String(input.value);
+        } else {
+          return String(cell.innerText);
+        }
+      }));
+
+      const data = [headers, ...rows];
+
+      const worksheet = XLSX.utils.aoa_to_sheet(data);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Trades');
+
+      const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+      const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute('download', 'trades.xlsx');
+      link.click();
+    }
+
+      // Attach click event listener to the export button
+      document.getElementById('export-btn').addEventListener('click', exportToExcel);
+  // Animate.css
+  $('.animate__animated').addClass('animate__fadeIn');
+  });
   </script>
   <!-- Include necessary JavaScript libraries if required -->
 </body>

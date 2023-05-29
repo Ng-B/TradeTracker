@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Trade = require('./models/Trade');
+const config = require('../config');
 
 const app = express();
 const port = 3000;
@@ -17,8 +18,7 @@ app.use(express.static('public'));
 
 
 // MongoDB Connection
-const mongoURI = 'mongodb+srv://naodg67:mydb123123@cluster0.fihii9o.mongodb.net/?retryWrites=true&w=majority';
-mongoose.connect(mongoURI, {
+mongoose.connect(config.mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
